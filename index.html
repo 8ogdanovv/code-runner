@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browser-js</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100dvh;
+      overflow: hidden;
+    }
+    h1 {
+      font-size: 75%;
+      text-align: center;
+    }
+    div {
+      flex-grow: 1;
+      border: 1px dashed lime;
+      padding: 1rem;
+      overflow-y: scroll;
+    }
+  </style>
+</head>
+<body>
+  <h1>Browser.JS</h1>
+  <div id="editor" contenteditable="true"></div>
+  <button onclick="runCode()">Run code</button>
+  <div id="output"></div>
+  <script>
+    var editor = document.getElementById('editor');
+    var output = document.getElementById('output');
+
+    function runCode() {
+      var code = editor.innerText;
+
+      try {
+        // Clear previous output
+        output.innerHTML = new Function(code)();
+        // Display output
+        console.log = function (message) {
+          output.innerHTML += message + '<br>';
+        };
+      } catch (error) {
+        // Display error
+        output.innerHTML = 'Error: ' + error.message;
+      }
+    }
+  </script>
+</body>
+</html>
