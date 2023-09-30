@@ -31,9 +31,7 @@ To use the Code Runner project:
 
 6. You can edit and rerun code snippets as needed.
 
-7. The editor also supports using the "Tab" key to insert two spaces.
-
-8. Enjoy coding and testing your JavaScript code with Code Runner!
+7. Enjoy coding and testing your JavaScript code with Code Runner!
 
 ## Author
 
