@@ -3,32 +3,105 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Browser-js</title>
+  <title>Червоняк Вадим Вікторович</title>
   <style>
     body {
+      width: 100%;
       margin: 0;
       display: flex;
       flex-direction: column;
-      height: 100dvh;
+      height: 100vh;
       overflow: hidden;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
     }
-    h1 {
-      font-size: 75%;
+
+    .container {
+      margin-top: -1rem;
+      margin-left: -1rem;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: calc(100vh - 2rem);
+    }
+
+    fieldset {
+      width: 100%;
       text-align: center;
-    }
-    div {
       flex-grow: 1;
-      border: 1px dashed lime;
-      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid lime;
       overflow-y: scroll;
+      padding: 0;
     }
+
+    .editor {
+      display: flex;
+      height: 60vh;
+      flex-grow: 1;
+      padding: 0;
+      margin: 0;
+    }
+
+    #editor, #output {
+      overflow: scroll;
+      flex-grow: 1;
+      padding: 0;
+    }
+
+    #editor {
+      display: flex;
+      text-align: left;
+      padding: 1rem;
+    }
+
+    #editor.editing {
+      border: 2px solid lime;
+    }
+
+    .output {
+      display: flex;
+      padding: 1rem;
+      height: 30vh;
+      flex-grow: 1;
+    }
+
+    button {
+      margin-top: 0.5rem;
+    }
+
+    legend {
+      margin: 0;
+      padding: 0;
+    }
+    .seo {
+      visibility: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+  }
   </style>
+  <script>
+      window.onload = () => document.title = 'Code Runner | (č) vadym4che';
+  </script>
 </head>
 <body>
-  <h1>Browser.JS</h1>
-  <div id="editor" contenteditable="true"></div>
-  <button onclick="runCode()">Run code</button>
-  <div id="output"></div>
+
+  <h1 class="seo">Червоняк Вадим Вікторович</h1>
+
+  <div class="container">
+    <fieldset class="editor">
+      <legend>Code Runner
+      <div id="editor" contenteditable="true"></div></legend>
+    </fieldset>
+    <button onclick="runCode()">Run code</button>
+    <fieldset class="output">
+      <legend>Output log</legend>
+      <div id="output"></div>
+    </fieldset>
+  </div>
   <script>
     var editor = document.getElementById('editor');
     var output = document.getElementById('output');
@@ -38,16 +111,42 @@
 
       try {
         // Clear previous output
-        output.innerHTML = new Function(code)();
+        output.innerHTML = '';
+        // Execute code
+        var result = eval(code);
         // Display output
-        console.log = function (message) {
-          output.innerHTML += message + '<br>';
-        };
+        output.innerHTML = result !== undefined ? result.toString() : '';
       } catch (error) {
         // Display error
         output.innerHTML = 'Error: ' + error.message;
       }
     }
+
+    editor.addEventListener('keydown', function(event) {
+      if (event.key === 'Tab') {
+        event.preventDefault();
+
+        var selectionStart = editor.selectionStart;
+        var selectionEnd = editor.selectionEnd;
+
+        // Insert two spaces at the cursor position
+        editor.value =
+          editor.value.substring(0, selectionStart) +
+          '  ' +
+          editor.value.substring(selectionEnd);
+
+        // Move the cursor two positions forward
+        editor.selectionStart = editor.selectionEnd = selectionStart + 2;
+      }
+    });
+
+    editor.addEventListener('focus', function() {
+      editor.classList.add('editing');
+    });
+
+    editor.addEventListener('blur', function() {
+      editor.classList.remove('editing');
+    });
   </script>
 </body>
 </html>
